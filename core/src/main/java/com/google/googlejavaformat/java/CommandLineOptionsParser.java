@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /** A parser for {@link CommandLineOptions}. */
 final class CommandLineOptionsParser {
@@ -43,6 +44,7 @@ final class CommandLineOptionsParser {
   static CommandLineOptions parse(Iterable<String> options) {
     CommandLineOptions.Builder optionsBuilder = CommandLineOptions.builder();
     List<String> expandedOptions = new ArrayList<>();
+    expandEnvironmentParams(System.getenv(), expandedOptions);
     expandParamsFiles(options, expandedOptions);
     Iterator<String> it = expandedOptions.iterator();
     // Accumulate the ranges in a mutable builder to merge overlapping ranges,
@@ -71,6 +73,7 @@ final class CommandLineOptionsParser {
             parseRangeSet(linesBuilder, getValue(flag, it, value));
         case "--offset", "-offset" -> optionsBuilder.addOffset(parseInteger(it, flag, value));
         case "--length", "-length" -> optionsBuilder.addLength(parseInteger(it, flag, value));
+        case "--width", "-width", "-w" -> optionsBuilder.width(parseInteger(it, flag, value));
         case "--aosp", "-aosp", "-a" -> optionsBuilder.aosp(true);
         case "--version", "-version", "-v" -> optionsBuilder.version(true);
         case "--help", "-help", "-h" -> optionsBuilder.help(true);
@@ -146,6 +149,25 @@ final class CommandLineOptionsParser {
    * Pre-processes an argument list, expanding arguments of the form {@code @filename} by reading
    * the content of the file and appending whitespace-delimited options to {@code arguments}.
    */
+  /**
+   * Expands environment variables with the prefix {@code JAVA_FORMAT_} into command-line flags. For
+   * example, {@code JAVA_FORMAT_WIDTH=120} becomes {@code -width 120}. Variables whose value is
+   * {@code FALSE} (case-insensitive) are ignored.
+   */
+  static void expandEnvironmentParams(Map<String, String> env, List<String> expanded) {
+    String prefix = "JAVA_FORMAT_";
+    env.forEach(
+        (key, value) -> {
+          if (key.startsWith(prefix) && !value.equalsIgnoreCase("FALSE")) {
+            String flag = "-" + key.substring(prefix.length()).toLowerCase().replace('_', '-');
+            expanded.add(flag);
+            if (!value.equalsIgnoreCase("TRUE")) {
+              expanded.add(value);
+            }
+          }
+        });
+  }
+
   private static void expandParamsFiles(Iterable<String> args, List<String> expanded) {
     for (String arg : args) {
       if (arg.isEmpty()) {

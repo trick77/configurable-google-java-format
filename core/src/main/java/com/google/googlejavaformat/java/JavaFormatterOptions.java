@@ -32,7 +32,8 @@ import com.google.errorprone.annotations.Immutable;
  * @param style Returns the code style.
  */
 @Immutable
-public record JavaFormatterOptions(boolean formatJavadoc, boolean reorderModifiers, Style style) {
+public record JavaFormatterOptions(
+    boolean formatJavadoc, boolean reorderModifiers, Style style, int maxLineWidth) {
   public JavaFormatterOptions {
     requireNonNull(style, "style");
   }
@@ -70,7 +71,8 @@ public record JavaFormatterOptions(boolean formatJavadoc, boolean reorderModifie
     return new AutoBuilder_JavaFormatterOptions_Builder()
         .style(Style.GOOGLE)
         .formatJavadoc(true)
-        .reorderModifiers(true);
+        .reorderModifiers(true)
+        .maxLineWidth(100);
   }
 
   /** A builder for {@link JavaFormatterOptions}. */
@@ -82,6 +84,8 @@ public record JavaFormatterOptions(boolean formatJavadoc, boolean reorderModifie
     public abstract Builder formatJavadoc(boolean formatJavadoc);
 
     public abstract Builder reorderModifiers(boolean reorderModifiers);
+
+    public abstract Builder maxLineWidth(int maxLineWidth);
 
     public abstract JavaFormatterOptions build();
   }

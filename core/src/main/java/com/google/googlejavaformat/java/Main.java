@@ -46,7 +46,7 @@ public final class Main {
   private static final String STDIN_FILENAME = "<stdin>";
 
   static String versionString() {
-    return "google-java-format: Version " + GoogleJavaFormatVersion.version();
+    return GoogleJavaFormatVersion.versionString();
   }
 
   private final PrintWriter outWriter;
@@ -120,6 +120,7 @@ public final class Main {
         JavaFormatterOptions.builder()
             .style(parameters.aosp() ? Style.AOSP : Style.GOOGLE)
             .formatJavadoc(parameters.formatJavadoc())
+            .maxLineWidth(parameters.width())
             .build();
 
     if (parameters.stdin()) {

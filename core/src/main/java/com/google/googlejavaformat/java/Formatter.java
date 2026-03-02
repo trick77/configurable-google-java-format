@@ -88,6 +88,11 @@ public final class Formatter {
     this.options = options;
   }
 
+  /** Returns the maximum line length for this formatter. */
+  public int getMaxLineLength() {
+    return options.maxLineWidth();
+  }
+
   /**
    * Construct a {@code Formatter} given a Java compilation unit. Parses the code; builds a {@link
    * JavaInput} and the corresponding {@link JavaOutput}.
@@ -115,7 +120,8 @@ public final class Formatter {
     builder.sync(javaInput.getText().length());
     builder.drain();
     Doc doc = new DocBuilder().withOps(builder.build()).build();
-    doc.computeBreaks(javaOutput.getCommentsHelper(), MAX_LINE_LENGTH, new Doc.State(+0, 0));
+    doc.computeBreaks(
+        javaOutput.getCommentsHelper(), options.maxLineWidth(), new Doc.State(+0, 0));
     doc.write(javaOutput);
     javaOutput.flush();
   }
