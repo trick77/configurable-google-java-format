@@ -24,7 +24,7 @@ final class UsageException extends Exception {
   private static final Joiner NEWLINE_JOINER = Joiner.on(System.lineSeparator());
 
   private static final String[] DOCS_LINK = {
-    "https://github.com/google/google-java-format",
+    "https://github.com/trick77/configurable-google-java-format",
   };
 
   private static final String[] USAGE = {
@@ -50,6 +50,8 @@ final class UsageException extends Exception {
     "    Do not reflow string literals that exceed the column limit.",
     "  --skip-javadoc-formatting",
     "    Do not reformat javadoc.",
+    "  --width, -width, -w",
+    "    Max line width (default: 100).",
     "  --dry-run, -n",
     "    Prints the paths of the files whose contents would change if the formatter were run"
         + " normally.",
