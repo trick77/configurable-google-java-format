@@ -15,21 +15,25 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.google.googlejavaformat</groupId>
-  <artifactId>google-java-format-parent</artifactId>
+  <groupId>io.github.mrdolch.formatter</groupId>
+  <artifactId>configurable-java-format-parent</artifactId>
   <packaging>pom</packaging>
-  <version>HEAD-SNAPSHOT</version>
+  <version>2026.1.0</version>
+  <name>Java Format Parent</name>
+
+  <scm>
+    <url>https://github.com/trick77/configurable-google-java-format</url>
+    <connection>scm:git:https://github.com/trick77/configurable-google-java-format.git</connection>
+    <tag>HEAD</tag>
+  </scm>
 
   <modules>
     <module>core</module>
   </modules>
 
-  <name>Google Java Format Parent</name>
 
   <description>
     A Java source code formatter that follows Google Java Style.
@@ -67,18 +71,6 @@
     </developer>
   </developers>
 
-  <scm>
-    <url>http://github.com/google/google-java-format/</url>
-    <connection>scm:git:git://github.com/google/google-java-format.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/google/google-java-format.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
-  <issueManagement>
-    <system>GitHub Issues</system>
-    <url>http://github.com/google/google-java-format/issues</url>
-  </issueManagement>
-
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
@@ -86,15 +78,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <guava.version>32.1.3-jre</guava.version>
-    <truth.version>1.4.0</truth.version>
+    <guava.version>33.4.8-jre</guava.version>
+    <truth.version>1.4.4</truth.version>
     <jspecify.version>1.0.0</jspecify.version>
-    <errorprone.version>2.47.0</errorprone.version>
-    <auto-value.version>1.9</auto-value.version>
-    <auto-service.version>1.0.1</auto-service.version>
-    <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+    <errorprone.version>2.45.0</errorprone.version>
+    <auto-value.version>1.11.0</auto-value.version>
+    <auto-service.version>1.1.1</auto-service.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -161,15 +152,15 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.14.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.4.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -177,12 +168,22 @@
         </plugin>
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.2.8</version>
         </plugin>
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.4</version>
+          <version>6.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <arguments>-ntp</arguments>
+            <scmCommentPrefix />
+            <tagNameFormat>@{project.version}</tagNameFormat>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -198,7 +199,6 @@
             <!-- compile-time arguments for google-java-format -->
             <arg>-XDcompilePolicy=simple</arg>
             <arg>--should-stop=ifError=FLOW</arg>
-            <arg>-XDaddTypeAnnotationsToSymbol=true</arg>
             <arg>-Xplugin:ErrorProne</arg>
             <arg>--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
             <arg>--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
@@ -255,7 +255,7 @@
           <execution>
             <id>attach-sources</id>
             <goals>
-              <goal>jar</goal>
+              <goal>jar-no-fork</goal>
             </goals>
           </execution>
         </executions>
@@ -279,7 +279,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>3.5.3</version>
         <configuration>
           <!-- set heap size to work around http://github.com/travis-ci/travis-ci/issues/3396 -->
           <argLine>
@@ -300,13 +300,6 @@
     </plugins>
   </build>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-
   <profiles>
     <profile>
       <id>sonatype-oss-release</id>
@@ -315,42 +308,18 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>${central-publishing-maven-plugin.version}</version>
+            <version>0.8.0</version>
             <extensions>true</extensions>
             <configuration>
-              <publishingServerId>central</publishingServerId>
+              <autoPublish>false</autoPublish>
+              <deploymentName>${project.artifactId}:${project.version}</deploymentName>
+              <waitUntil>validated</waitUntil>
             </configuration>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.8</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

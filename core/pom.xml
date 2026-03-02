@@ -15,19 +15,17 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.google.googlejavaformat</groupId>
-    <artifactId>google-java-format-parent</artifactId>
-  <version>HEAD-SNAPSHOT</version>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.mrdolch.formatter</groupId>
+        <artifactId>configurable-java-format-parent</artifactId>
+        <version>2026.1.0</version>
+    </parent>
 
-  <artifactId>google-java-format</artifactId>
+    <artifactId>configurable-java-format</artifactId>
 
-  <name>Google Java Format</name>
+  <name>Configurable Java Format</name>
 
   <description>
     A Java source code formatter that follows Google Java Style.
@@ -68,23 +66,12 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava-testlib</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.truth.extensions</groupId>
-      <artifactId>truth-java8-extension</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.testing.compile</groupId>
-      <artifactId>compile-testing</artifactId>
-      <version>0.19</version>
-      <scope>test</scope>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
     </dependency>
   </dependencies>
 
@@ -93,13 +80,13 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <source>17</source>
+          <source>21</source>
           <encoding>UTF-8</encoding>
           <docencoding>UTF-8</docencoding>
           <charset>UTF-8</charset>
           <links>
             <link>https://guava.dev/releases/${guava.version}/api/docs/</link>
-            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/21/docs/api</link>
           </links>
           <additionalJOptions>
             <additionalJOption>--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED,com.google.googlejavaformat</additionalJOption>
@@ -123,7 +110,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <id>shade-all-deps</id>
@@ -195,7 +182,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -215,8 +202,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>17</source>
-          <target>17</target>
+          <source>21</source>
+          <target>21</target>
         </configuration>
       </plugin>
     </plugins>
@@ -230,7 +217,7 @@
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>
             <artifactId>native-maven-plugin</artifactId>
-            <version>0.10.0</version>
+            <version>0.11.0</version>
             <extensions>true</extensions>
             <executions>
               <execution>
