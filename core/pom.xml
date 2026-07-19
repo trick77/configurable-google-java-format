@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.trick77.formatter</groupId>
         <artifactId>configurable-java-format-parent</artifactId>
-        <version>1.34.1-fork.1</version>
+        <version>1.35.0-fork.1</version>
     </parent>
 
     <artifactId>configurable-java-format</artifactId>
