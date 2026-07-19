@@ -33,3 +33,13 @@ mvn package -Pnative                                     # native binary (requir
 
 - Java 21+ (CI tests on JDK 25).
 - Surefire needs the `--add-exports` JVM flags configured in the parent POM `<argLine>` — keep them when editing the POM.
+
+## Syncing Upstream
+
+- Upstream (`google` remote) is **read-only**; its push URL is disabled. Never push or open PRs against `google/google-java-format` — always the fork (`origin` → `trick77/configurable-google-java-format`).
+- Merge upstream **releases** (not `master`) with `util/sync-upstream.sh` (defaults to the latest `v*` tag). Use **merge, never rebase** — `git rerere` is enabled to replay recurring conflict resolutions. The script auto-resolves modify/delete of removed plugins and leaves only real content conflicts. After resolving: bump the fork version and run `mvn test`.
+
+## Releasing
+
+- Version scheme: `<upstream-version>-fork.N` (e.g. `1.35.0-fork.1`) — **no `v` prefix** (upstream tags use `v`, the fork does not).
+- To release: push a tag named exactly the fork version to `origin`. This triggers `.github/workflows/github-release.yaml`, which builds the fat jar and creates a **GitHub Release** with `core/target/*-all-deps.jar` attached (GitHub Release only — not published to Maven Central). Keep the pom `<version>` and the tag in sync.
